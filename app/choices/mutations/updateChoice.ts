@@ -3,8 +3,7 @@ import db from "db"
 import { z } from "zod"
 
 const UpdateChoice = z.object({
-  id: z.number(),
-  name: z.string(),
+  id: z.number()
 })
 
 export default resolver.pipe(
