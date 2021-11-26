@@ -17,6 +17,14 @@ const UserInfo = () => {
   if (currentUser) {
     return (
       <>
+        <div>
+          <Link href={Routes.QuestionsPage()}>
+            <a>
+              <h2>Questions</h2>
+            </a>
+          </Link>
+        </div>
+
         <button
           className="button small"
           onClick={async () => {
@@ -25,11 +33,6 @@ const UserInfo = () => {
         >
           Logout
         </button>
-        <div>
-          User id: <code>{currentUser.id}</code>
-          <br />
-          User role: <code>{currentUser.role}</code>
-        </div>
       </>
     )
   } else {
@@ -54,7 +57,6 @@ const Home: BlitzPage = () => {
   return (
     <div className="container">
       <main>
-        <h1>Hello World!</h1>
         <div className="buttons" style={{ marginTop: "1rem", marginBottom: "1rem" }}>
           <Suspense fallback="Loading...">
             <UserInfo />
