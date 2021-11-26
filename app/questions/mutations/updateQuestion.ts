@@ -17,7 +17,7 @@ export default resolver.pipe(
       data: {
         ...data,
         choices: {
-          upser: data.choices.map((choice) => ({
+          upsert: data.choices.map((choice) => ({
             // Appears to be a prisma bug,
             // Because '|| 0' shouldn't be needed
             where: { id: choice.id || 0 },
