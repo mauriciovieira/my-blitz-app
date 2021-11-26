@@ -4,6 +4,7 @@ This is a [Blitz.js](https://github.com/blitz-js/blitz) app.
 
 # **my-blitz-app**
 
+Deployed to https://blitz-tutorial-mauriciovieira.herokuapp.com/
 ## Getting Started
 
 Run your app in the development mode.
