@@ -4,9 +4,7 @@ import { z } from "zod"
 
 export const CreateQuestion = z.object({
   text: z.string().nonempty({ message: "You must enter a question" }),
-  choices: z
-    .array(z.object({ text: z.string().nonempty({ message: "You must enter a choice" }) }))
-    .nonempty({ message: "You must enter at least one choice" }),
+  choices: z.array(z.object({ text: z.string() })),
 })
 
 export default resolver.pipe(resolver.zod(CreateQuestion), resolver.authorize(), async (input) => {
