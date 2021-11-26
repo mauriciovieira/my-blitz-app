@@ -5,6 +5,8 @@
     "dev": "blitz dev",
     "build": "blitz build",
     "start": "blitz start",
+    "start:production": "blitz start --port $PORT",
+    "migrate:production": "blitz prisma migrate deploy",
     "studio": "blitz prisma studio",
     "lint": "eslint --ignore-path .gitignore --ext .js,.ts,.tsx .",
     "test": "jest",
