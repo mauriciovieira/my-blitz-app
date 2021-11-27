@@ -12,6 +12,7 @@ jobs:
     env:
       PGHOST: localhost
       PGUSER: postgres
+      DATABASE_URL: postgresql://postgres@localhost:5432/my_blitz_app_test
     services:
       postgres:
         image: postgres:11.5
