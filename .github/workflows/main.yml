@@ -1,0 +1,55 @@
+name: CI
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+    branches: [master]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    env:
+      PGHOST: localhost
+      PGUSER: postgres
+      DATABASE_URL: postgresql://postgres@localhost:5432/my_blitz_app_test
+    services:
+      postgres:
+        image: postgres:11.5
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 1s
+          --health-timeout 5s
+          --health-retries 3
+        ports:
+          - 5432:5432
+    steps:
+      - uses: actions/checkout@v2
+      - name: Get node version from tools-versions
+        id: project-node-version
+        run: echo "::set-output name=version::$(cat .tool-versions | cut -f2 -d' ')"
+      - name: Use Node.js ${{ steps.project-node-version.outputs.version }}
+        uses: actions/setup-node@v2.4.1
+        with:
+          node-version: ${{ steps.project-node-version.outputs.version }}
+      - name: Get yarn cache directory path
+        id: yarn-cache-dir-path
+        run: echo "::set-output name=dir::$(yarn cache dir)"
+      - name: Cache yarn
+        id: yarn-cache-step
+        uses: actions/cache@v2
+        env:
+          cache-name: cache-node-modules
+        with:
+          path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
+          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-yarn-
+      - name: Install modules
+        run: yarn install
+      - name: Run linters
+        run: yarn lint
+      - name: Run tests
+        run: yarn test
+      - name: Build
+        run: yarn build
