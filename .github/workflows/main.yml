@@ -2,19 +2,31 @@ name: CI
 
 on:
   push:
-    branches: [ master ]
+    branches: [master]
   pull_request:
-    branches: [ master ]
+    branches: [master]
 
 jobs:
   build:
     runs-on: ubuntu-latest
-
+    env:
+      PGHOST: localhost
+      PGUSER: postgres
+    services:
+      postgres:
+        image: postgres:11.5
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 1s
+          --health-timeout 5s
+          --health-retries 3
+        ports:
+          - 5432:5432
     steps:
       - uses: actions/checkout@v2
       - name: Get node version from tools-versions
         id: project-node-version
-        run: echo "::set-output name=version::$(cat .tool-versions | cut -f2 -d' ')"      
+        run: echo "::set-output name=version::$(cat .tool-versions | cut -f2 -d' ')"
       - name: Use Node.js ${{ steps.project-node-version.outputs.version }}
         uses: actions/setup-node@v2.4.1
         with:
